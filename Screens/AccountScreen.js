@@ -20,8 +20,7 @@ Keyboard
 const AccountScreen = (props) => {
 
   const {user,token,setUser} = useContext(AppContext)
-  const [login, setLogin] = useState(user?.login);
-  const [language, setLanguage] = useState(user?.language);
+  const [username, setUsername] = useState(user?.username);
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
 
@@ -32,8 +31,7 @@ const AccountScreen = (props) => {
 
         { name: name,
           email: email,
-          login: login,
-          language:language
+          username: username,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -83,15 +81,6 @@ const AccountScreen = (props) => {
 
          />
 
-         <Text style={styles.textStyle}>
-            Language
-         </Text>
-         <TextInput style={styles.inputStyle}
-         
-         value={language}
-         onChangeText={(e) => setLanguage(e)}
-
-         />
 
          <Text style={styles.textStyle}>
             Username
@@ -132,7 +121,7 @@ const styles = StyleSheet.create({
     marginTop:25,
       backgroundColor:"white",
       width:315,
-      height:390,
+      height:310,
       borderRadius:20
 
 

@@ -16,7 +16,6 @@ import {
 
 
   const EventCard = (props) => {
-      console.log(props.event.user)
 
 
     return (

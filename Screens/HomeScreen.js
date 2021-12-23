@@ -21,7 +21,7 @@ import EventCard from '../components/EventCart';
 
 
 const HomeScreen = (props) => {
-    const {token} = useContext(AppContext)
+    const {token,user} = useContext(AppContext)
 useEffect(() => {
     axios.get('/events', {
       headers: { Authorization: `Bearer ${token}` },
@@ -34,8 +34,6 @@ useEffect(() => {
       .catch((err) => console.log("Error: ", err))
   }, [])
   const [events, setEvents] = useState([])
-  console.log("user",events)
-
 
 
   return (

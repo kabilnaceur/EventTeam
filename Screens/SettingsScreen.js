@@ -19,13 +19,12 @@ ScrollView
 
 const SettingsScreen = (props) => {
 
-  useEffect(() => {
-    if(!token)
-    {  props.navigation.replace("Login") }
-
+    React.useEffect(() => {
+        if (!user)
+            {props.navigation.replace('Login')}
+       
     }, [])
   const logout = () =>{
-    props.navigation.replace("Login")
     logoutUser() 
   }
   const {user,logoutUser,setLoading,token} = useContext(AppContext)
@@ -141,7 +140,7 @@ const SettingsScreen = (props) => {
 
   <Image style={styles.logo} source={logo} />
  
-        <TouchableOpacity style={{margin:15}} onPress={logout}>
+        <TouchableOpacity style={{margin:15}} onPress={ logoutUser}>
     <View style={{flexDirection:"row"}}>
 
       <Icon name="log-out-outline" color={"#D61554"} size={30} style={styles.notification}/>
@@ -234,7 +233,8 @@ logText:{
   marginLeft:15,
   color:"#4A5A77",
 
-}
+},
+
 
 
 

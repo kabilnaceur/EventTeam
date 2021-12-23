@@ -24,20 +24,28 @@ import {
 
 
 const Login = (props) => {
-const {loginUser} = useContext(AppContext)
+    React.useEffect(() => {
+        if (user)
+            {props.navigation.replace('Home')}
+            else {setLoading(false)}
+       
+    }, [])
+
+const {loginUser,user,refreshUser} = useContext(AppContext)
 
   const [username , setUsername,] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = React.useState(true)
+
   console.log(username,password)
 
   const User = async  () => {
- 
 
 
     axios.post('/users/login',{username:username , password:password})
     .then( async (res)=> {
       await AsyncStorage.setItem('token',res.data.token);
-      console.log('res-auth',res.data.user);
+      refreshUser()
       loginUser(res.data.token);
       props.navigation.navigate("Home");
     }
@@ -45,8 +53,9 @@ const {loginUser} = useContext(AppContext)
     .catch((error)=>{console.log(error)})
    
   }
+  if(!loading){
   return (
-    <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
+      <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
     <KeyboardAvoidingView style={styles.backgroud} behavior={Platform.OS==='ios'?'position':''}>
 
     <SafeAreaView style={{justifyContent:"center",alignItems:"center"}}
@@ -101,7 +110,12 @@ const {loginUser} = useContext(AppContext)
     </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
 
-  );
+  )}
+  return(
+    <View style={styles.backgroud}>
+    <Image source={logo} style={styles.logoScreen} />
+      </View>
+  )
 }
 
 
@@ -182,6 +196,11 @@ signupText:{
   color:"#D61554",
   fontSize: 15,
   fontWeight:"bold"
+},
+logoScreen : {
+    marginTop:20,
+    width:500,
+    height:200
 }
 
 
