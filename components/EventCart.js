@@ -50,8 +50,21 @@ import {
 
             </View>
             <View style={{flexDirection:"row"}}>
-                <TouchableOpacity style={{margin:8}}>
-                <FontAwesome name="heart" color={"#D61554"} size={30} />
+                <TouchableOpacity style={{margin:8}}
+                            onPress={()=>{
+                                props.isLiked(props.event._id)
+                                    ? props.deleteLike(props.event._id)
+                                    : props.addLike(props.event._id)}} 
+                >
+                {
+                props.isLiked(props.event._id)?(
+                    <FontAwesome name="heart" color={"#D61554"} size={30} />
+
+                ):(
+                    <FontAwesome name="heart-o" color={"#D61554"} size={30} />
+
+                )
+              }
 
                 </TouchableOpacity>
             <TextInput style={styles.commentInput}/>

@@ -21,7 +21,7 @@ import EventCard from '../components/EventCart';
 
 
 const HomeScreen = (props) => {
-    const {token,user} = useContext(AppContext)
+    const {token,user,setUser} = useContext(AppContext)
 useEffect(() => {
     axios.get('/events', {
       headers: { Authorization: `Bearer ${token}` },
@@ -34,6 +34,47 @@ useEffect(() => {
       .catch((err) => console.log("Error: ", err))
   }, [])
   const [events, setEvents] = useState([])
+  const isLiked = (eventId) => {
+    if (user) {
+      return user?.likes?.map(event => event._id).includes(eventId)
+  
+    }}
+    const addLike = (eventId) => {
+        axios.get(`events/${eventId}`,  {
+            headers: { Authorization: `Bearer ${token}` },
+          }).then(
+          event => {
+            axios.post('users/likes', {
+              eventId: eventId
+            },
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }).then(res => {
+                setUser({ ...user, likes: [...user.likes, event.data] })
+              }).catch(err => {
+                console.log(err)
+              })
+            console.log(event)
+          }
+        ).catch(err => {
+          console.log(err)
+        })
+      }
+      const deleteLike = (contactId) => {
+        axios.delete(`/users/favorites/${contactId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).then(res => {
+          const _user = { ...user }
+          const contactIndex = user.favorites.findIndex(contact => contact._id === contactId)
+          if (contactIndex > -1) {
+            _user.favorites.splice(contactIndex, 1)
+            setUser({ ..._user })
+          }
+    
+        }).catch(err => {
+          console.log(err)
+        })
+      }
 
 
   return (
@@ -57,7 +98,7 @@ useEffect(() => {
         <ScrollView contentContainerStyle={styles.eventView}>
             {
                 events.map(event=>(
-                    <EventCard navig={props.navigation} key={event._id} event={event}/>
+                    <EventCard navig={props.navigation} key={event._id} event={event} isLiked={isLiked} addLike={addLike}/>
 
 
                 ))

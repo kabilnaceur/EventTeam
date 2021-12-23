@@ -86,8 +86,8 @@ const AccountScreen = (props) => {
             Username
          </Text>
          <TextInput style={styles.inputStyle}
-                 value={login}
-                 onChangeText={(e) => setLogin(e)}
+                 value={username}
+                 onChangeText={(e) => setUsername(e)}
 
 
          />
