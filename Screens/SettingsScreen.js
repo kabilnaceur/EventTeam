@@ -76,48 +76,7 @@ const SettingsScreen = (props) => {
 
 
   </TouchableOpacity>
-  <TouchableOpacity style={{margin:15}} onPress={()=>props.navigation.navigate("Trash")} >
-    <View style={{flexDirection:"row"}}>
-      <View style={{flex:1}}>
-      <Icon name="trash-outline" color={"#4A5A77"} size={35} style={styles.notification}/>
 
-      </View>
-      <View style={{flex:4}}>
-        <Text style={styles.settingsText}>
-          Trash
-        </Text>
-
-      </View>
-      <View style={{flex:1}}>
-      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={35} style={styles.notification}/>
-
-      </View>
-
-    </View>
-
-
-  </TouchableOpacity>
-<TouchableOpacity style={{margin:15}} onPress={()=>props.navigation.navigate("History")} >
-    <View style={{flexDirection:"row"}}>
-      <View style={{flex:1}}>
-      <MaterialCommunityIcons name="history" color={"#4A5A77"} size={35} style={styles.notification}/>
-
-      </View>
-      <View style={{flex:4}}>
-        <Text style={styles.settingsText}>
-          History
-        </Text>
-
-      </View>
-      <View style={{flex:1}}>
-      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={35} style={styles.notification}/>
-
-      </View>
-
-    </View>
-
-
-  </TouchableOpacity>
 <TouchableOpacity style={{margin:15}} onPress={()=>props.navigation.navigate("Account")}>
     <View style={{flexDirection:"row"}}>
       <View style={{flex:1}}>
@@ -185,7 +144,7 @@ const SettingsScreen = (props) => {
         <TouchableOpacity style={{margin:15}} onPress={logout}>
     <View style={{flexDirection:"row"}}>
       <View style={{flex:1}}>
-      <Icon name="log-out-outline" color={"#b25775"} size={35} style={styles.notification}/>
+      <Icon name="log-out-outline" color={"#D61554"} size={35} style={styles.notification}/>
 
       </View>
       <View style={{flex:4}}>
@@ -219,6 +178,7 @@ const styles = StyleSheet.create({
   },
 
   logo: {
+      marginTop:20,
     marginLeft: 15,
     width: 100,
     height: 100
@@ -253,6 +213,8 @@ detailsView:{
   width:"85%",
 marginTop:20,
 marginBottom:20,
+borderRadius:20
+
 },
 settingsText :{
   fontSize:20,
@@ -263,7 +225,7 @@ settingsText :{
 LogoutText :{
   fontSize:20,
   fontWeight:"500",
-  color:"#b25775",
+  color:"#D61554",
   marginTop:5
 },
 logText:{

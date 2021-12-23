@@ -11,11 +11,31 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SettingsScreen from './Screens/SettingsScreen';
 import ProfileScreen from './Screens/ProfileScreen';
+import AccountScreen from './Screens/AccountScreen';
+import SecurityScreen from './Screens/SecurityScreen';
 import AddEventScreen from './Screens/AddEventScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SignupScreen from './Screens/SignupScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const SettingStack = createNativeStackNavigator();
+
+const SettingsPages = (props) => {
+  return(  <SettingStack.Navigator
+    initialRouteName='Profile'
+    headerMode='screen'
+ 
+  >
+          <SettingStack.Screen name="Settings" component={SettingsScreen}
+          />
+          <SettingStack.Screen name="Account" component={AccountScreen}/>
+          <SettingStack.Screen name="Security" component={SecurityScreen}/>
+
+
+  </SettingStack.Navigator>)
+
+
+}
 const BottomNav = (props) => {
   return (
     <Tab.Navigator
@@ -45,8 +65,9 @@ const BottomNav = (props) => {
                 <FontAwesome name="user" color={color} size={size} />
 
             ),}} />
-                  <Tab.Screen name="Settings" component={SettingsScreen}           
+                  <Tab.Screen name="Settings" component={SettingsPages}           
         options={{       
+          headerShown: false,
               tabBarIcon: ({ color, size }) => (
                 <Icon name="settings-sharp" color={color} size={size} />
 
