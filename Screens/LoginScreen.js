@@ -1,5 +1,7 @@
 import React,{useState,useContext,useEffect} from 'react';
 import logo from "../assets/images/logo.png"
+import { axios } from '../helper/axios';
+import { AppContext } from "../context/AppContext";
 
 import {
 
@@ -22,10 +24,27 @@ import {
 
 
 const Login = (props) => {
+const {loginUser} = useContext(AppContext)
 
-  const [login , setLogin,] = useState("")
+  const [username , setUsername,] = useState("")
   const [password, setPassword] = useState("")
+  console.log(username,password)
 
+  const User = async  () => {
+ 
+
+
+    axios.post('/users/login',{username:username , password:password})
+    .then( async (res)=> {
+      await AsyncStorage.setItem('token',res.data.token);
+      console.log('res-auth',res.data.user);
+      loginUser(res.data.token);
+      props.navigation.navigate("Home");
+    }
+      )
+    .catch((error)=>{console.log(error)})
+   
+  }
   return (
     <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
     <KeyboardAvoidingView style={styles.backgroud} behavior={Platform.OS==='ios'?'position':''}>
@@ -42,7 +61,7 @@ const Login = (props) => {
         </Text>
         <TextInput
         style={styles.input}
-        onChangeText={(e) => setLogin(e)}
+        onChangeText={(e) => setUsername(e)}
 
         />
          <Text style={styles.usernameText} >
@@ -55,6 +74,8 @@ const Login = (props) => {
 
         />
         <TouchableOpacity style={styles.buttonLogin}
+                      onPress={User}
+
         >
           <Text style={styles.buttonText}>
             Login
@@ -108,7 +129,6 @@ const styles = StyleSheet.create({
   },
   loginText:{
     fontSize: 11,
-    fontFamily:"Cochin",
     marginTop:42,
     color: "#D61554",
     width: 149,
@@ -122,7 +142,9 @@ const styles = StyleSheet.create({
     marginTop:0,
     width: 223,
     height: 33,
-    borderRadius:50
+    borderRadius:50,
+    paddingLeft:10
+
   },
 usernameText:
 {
@@ -146,7 +168,7 @@ buttonLogin:{
 },
 buttonText:{
   color:"white",
-  fontSize: 18,
+  fontSize: 16,
 
 },
 ForgetPasswordButton : {
@@ -155,12 +177,10 @@ ForgetPasswordButton : {
 ForgetPasswordText: {
   color:"#D61554",
   fontSize: 11,
-  fontFamily:"Cochin",
 },
 signupText:{
   color:"#D61554",
   fontSize: 15,
-  fontFamily:"Cochin",
   fontWeight:"bold"
 }
 

@@ -1,5 +1,6 @@
 import React,{useState,useContext,useEffect} from 'react';
 import logo from "../assets/images/logo.png"
+import { axios } from '../helper/axios';
 
 
 import {
@@ -15,7 +16,9 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Keyboard,
-  AsyncStorage
+  AsyncStorage,
+  Platform,
+
 
 } from 'react-native';
 
@@ -24,11 +27,28 @@ import {
 const SignupScreen = (props) => {
 
     
-  const [login, setLogin] = useState("");
-  const [language, setLanguage] = useState("");
+  const [username, setUsername] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const signUp = () => {
+    axios.post(
+        '/users/',
+        { name: name,
+          email: email,
+          username: username,
+          password:password,
+        }
+      )
+      .then((response) => {
+        props.navigation.replace("Login") 
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   
   
   return (
@@ -63,7 +83,7 @@ const SignupScreen = (props) => {
         </Text>
         <TextInput
         style={styles.input}
-        onChangeText={(e) => setLanguage(e)}
+        onChangeText={(e) => setUsername(e)}
 
         />
                 <Text style={styles.usernameText}>
@@ -71,7 +91,7 @@ const SignupScreen = (props) => {
         </Text>
         <TextInput
         style={styles.input}
-        onChangeText={(e) => setLogin(e)}
+        onChangeText={(e) => setPassword(e)}
 
         />
          <Text style={styles.usernameText} type="password">
@@ -79,12 +99,14 @@ const SignupScreen = (props) => {
         </Text>
         <TextInput
         style={styles.input}
-        onChangeText={(e) => setPassword(e)}
+        onChangeText={(e) => setConfirmPassword(e)}
         secureTextEntry={true}
 
 
         />
-        <TouchableOpacity style={styles.buttonLogin}
+        <TouchableOpacity style={styles.buttonLogin}              
+         onPress={signUp}
+
         >
           <Text style={styles.buttonText}>
             Sign up
@@ -131,7 +153,6 @@ const styles = StyleSheet.create({
   },
   loginText:{
     fontSize: 11,
-    fontFamily:"Cochin",
     marginTop:22,
     color: "#D61554",
     width: 149,
@@ -144,7 +165,9 @@ const styles = StyleSheet.create({
     backgroundColor:"#E8F0FE",
     width: 223,
     height: 33,
-    borderRadius:50
+    borderRadius:50,
+    paddingLeft:10
+
   },
 usernameText:
 {
@@ -168,7 +191,7 @@ buttonLogin:{
 },
 buttonText:{
   color:"white",
-  fontSize: 18,
+  fontSize: 16,
 
 },
 ForgetPasswordButton : {
@@ -177,12 +200,10 @@ ForgetPasswordButton : {
 ForgetPasswordText: {
   color:"#D61554",
   fontSize: 11,
-  fontFamily:"Cochin",
 },
 signupText:{
   color:"#D61554",
   fontSize: 15,
-  fontFamily:"Cochin",
   fontWeight:"bold"
 }
 
