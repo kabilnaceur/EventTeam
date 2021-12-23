@@ -13,14 +13,9 @@ export const AppContext = createContext();
 
 const AppContextProvider =  (props) => {
   
-  const [groups, setGroups] = useState([]);
-  const [trigger, setTrigger] = useState(false);
-  const [contacts, setContacts] = useState([])
-  const [trigger1, setTrigger1] = useState(false);
-  const [contactPage, setContactPage] = useState(false); 
+  const [events, setEvents] = useState([])
+
   const [loading, setLoading] = useState(true);
-  const [activeContact, setActiveContact] = useState(false); 
-  const [activeAgent, setActiveAgent] = useState(false); 
   const [token, setToken] = useState( AsyncStorage.getItem('token'));
   const [user, setUser] = useState(null); 
   React.useEffect(async () => {
@@ -73,22 +68,10 @@ const AppContextProvider =  (props) => {
         setUser,
         loginUser,
         logoutUser,
-        contactPage,
-        setContactPage,
-        trigger,
-        trigger1,
-        setTrigger,
-        setTrigger1,
-        activeAgent,
-        activeContact,
-        setActiveAgent,
-        setActiveContact,
-        contacts,
-        setContacts,
-        setGroups,
-        groups,
         setLoading,
-        refreshUser
+        refreshUser,
+        events,
+        setEvents
       }}
     >
       {!loading?(props.children):

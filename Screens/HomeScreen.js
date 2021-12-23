@@ -21,7 +21,7 @@ import EventCard from '../components/EventCart';
 
 
 const HomeScreen = (props) => {
-    const {token,user,setUser} = useContext(AppContext)
+    const {token,user,setUser,events,setEvents} = useContext(AppContext)
 useEffect(() => {
     axios.get('/events', {
       headers: { Authorization: `Bearer ${token}` },
@@ -33,7 +33,6 @@ useEffect(() => {
       })
       .catch((err) => console.log("Error: ", err))
   }, [])
-  const [events, setEvents] = useState([])
   const isLiked = (eventId) => {
     if (user) {
       return user?.likes?.map(event => event._id).includes(eventId)
@@ -60,14 +59,14 @@ useEffect(() => {
           console.log(err)
         })
       }
-      const deleteLike = (contactId) => {
-        axios.delete(`/users/favorites/${contactId}`, {
+      const deleteLike = (eventId) => {
+        axios.delete(`/users/likes/${eventId}`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then(res => {
           const _user = { ...user }
-          const contactIndex = user.favorites.findIndex(contact => contact._id === contactId)
-          if (contactIndex > -1) {
-            _user.favorites.splice(contactIndex, 1)
+          const eventIndex = user.likes.findIndex(event => event._id === eventId)
+          if (eventIndex > -1) {
+            _user.likes.splice(eventIndex, 1)
             setUser({ ..._user })
           }
     
@@ -98,7 +97,7 @@ useEffect(() => {
         <ScrollView contentContainerStyle={styles.eventView}>
             {
                 events.map(event=>(
-                    <EventCard navig={props.navigation} key={event._id} event={event} isLiked={isLiked} addLike={addLike}/>
+                    <EventCard navig={props.navigation} key={event._id} event={event} isLiked={isLiked} addLike={addLike} deleteLike={deleteLike}/>
 
 
                 ))

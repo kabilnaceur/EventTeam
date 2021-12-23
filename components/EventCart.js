@@ -19,7 +19,7 @@ import {
 
 
     return (
-       <TouchableOpacity style={styles.evView}  onPress={()=>props.navig.navigate("Event")}
+       <TouchableOpacity style={styles.evView}  onPress={()=>props.navig.navigate("Event",{eventId:props.event._id,isLiked:props.isLiked,addLike:props.addLike,deleteLike:props.deleteLike})}
        >
 
 

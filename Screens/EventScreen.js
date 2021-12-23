@@ -2,7 +2,8 @@ import React,{useState,useContext,useEffect} from 'react';
 import Event from "../assets/images/event.jpeg"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { AppContext } from "../context/AppContext";
+import { axios } from '../helper/axios';
 import {
 
   StyleSheet,
@@ -19,7 +20,62 @@ import {
 
 
 const EventScreen = (props) => {
+    const {token,user,setUser} = useContext(AppContext)
+    const isLiked = (eventId) => {
+        if (user) {
+          return user?.likes?.map(event => event._id).includes(eventId)
+      
+        }}
+        const addLike = (eventId) => {
+            axios.get(`events/${eventId}`,  {
+                headers: { Authorization: `Bearer ${token}` },
+              }).then(
+              event => {
+                axios.post('users/likes', {
+                  eventId: eventId
+                },
+                  {
+                    headers: { Authorization: `Bearer ${token}` },
+                  }).then(res => {
+                    setUser({ ...user, likes: [...user.likes, event.data] })
+                  }).catch(err => {
+                    console.log(err)
+                  })
+                console.log(event)
+              }
+            ).catch(err => {
+              console.log(err)
+            })
+          }
+          const deleteLike = (eventId) => {
+            axios.delete(`/users/likes/${eventId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            }).then(res => {
+              const _user = { ...user }
+              const eventIndex = user.likes.findIndex(event => event._id === eventId)
+              if (eventIndex > -1) {
+                _user.likes.splice(eventIndex, 1)
+                setUser({ ..._user })
+              }
+        
+            }).catch(err => {
+              console.log(err)
+            })
+          }
 
+    useEffect(() => {
+        axios.get(`/events/${props.route.params.eventId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(response => {
+            if (response && response.data) {
+              setEvent(response.data)
+            }
+          })
+          .catch((err) => console.log("Error: ", err))
+      }, [])
+    const [event, setEvent] = useState([])
+console.log(event)
 
   return (
 
@@ -30,23 +86,23 @@ const EventScreen = (props) => {
     <View style={{flex:1}}>
             <Image source={Event} style={styles.eventImage} />
             <Text style={styles.textStyle}>
-                Event posted by : Kabil naceur
+                Event posted by : {event.user?.name}
 
             </Text>
             <Text style={styles.textStyle}>
-                Type : Wedding
+                Type : {event.type}
             </Text>
             <View style={{flexDirection:"row"}}>
             <View style={{flexDirection:"row",flex:2}}>
 
             <Icon name="location-sharp" color={"#2697bb"} size={30}/>
             <Text style={styles.textStyle}>
-                Sousse</Text>
+                {event.location}</Text>
                 </View>
                 <View style={{flexDirection:"row",flex:1}}>
                 <FontAwesome name="users" color={"#2697bb"} size={30} />
             <Text style={styles.textStyle}>
-                0</Text>
+                {event.numberParticipants}</Text>
                     </View>
 
 
@@ -56,18 +112,25 @@ const EventScreen = (props) => {
                 Description :
             </Text>
             <Text style={styles.textStyle}>
-            I request the honor of your presence
-at their wedding
-on the fifth of May, two thousand seventeen
-at one o'clock in the afternoon
-The Reagan Library
-Simi Valley, California
-Dinner & dancing to follow
-Black tie required            </Text>
+                {event.description}
+           </Text>
             </View>
             <View style={{flexDirection:"row",marginBottom:10}}>
-                <TouchableOpacity style={{margin:8}}>
-                <FontAwesome name="heart" color={"#D61554"} size={30} />
+            <TouchableOpacity style={{margin:8}}
+                            onPress={()=>{
+                                isLiked(event._id)
+                                    ? deleteLike(event._id)
+                                    : addLike(event._id)}} 
+                >
+                {
+                isLiked(event._id)?(
+                    <FontAwesome name="heart" color={"#D61554"} size={30} />
+
+                ):(
+                    <FontAwesome name="heart-o" color={"#D61554"} size={30} />
+
+                )
+              }
 
                 </TouchableOpacity>
             <TextInput style={styles.commentInput}/>

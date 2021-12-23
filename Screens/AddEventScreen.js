@@ -19,7 +19,7 @@ View,
 
 
 const AddEventScreen = (props) => {
-    const {token} = useContext(AppContext)
+    const {token,events,setEvents} = useContext(AppContext)
 
     const [name, setName] = useState("");
     const [date, setDate] = useState(null);
@@ -27,12 +27,19 @@ const AddEventScreen = (props) => {
     const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
     const addEvent = () => {
-    
-        axios.post("/users/events", {name:name,date:date,type:type,description:description,location:location}, {
+
+        axios.post("/users/events", {name:name,date:date,type:type,location:location,des:description}, {
           headers: { Authorization: `Bearer ${token}` }
         })
           .then((resp) => {
-              console.log(resp.date)
+              console.log(resp)
+              const newEvents = [resp.data,...events];
+              setEvents(newEvents);
+              setType('')
+              setDescription('')
+              setLocation('')
+              setDate('')
+              setName('')
 
           })
           .catch((err) => { console.log('Error : ', err) })
