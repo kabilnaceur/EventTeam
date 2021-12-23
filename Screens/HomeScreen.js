@@ -2,15 +2,20 @@ import React,{useState,useContext,useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppContext } from "../context/AppContext";
 
+
 import {
 
   StyleSheet,
 View,
   SafeAreaView,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Text
 
 } from 'react-native';
+import EventCard from '../components/EventCart';
 
 
 
@@ -36,6 +41,9 @@ console.log("user",user)
 
 
         </View>
+        <ScrollView contentContainerStyle={styles.eventView}>
+<EventCard navig={props.navigation}/>
+        </ScrollView>
     
   
     </SafeAreaView>
@@ -81,7 +89,15 @@ searchButton:{
     justifyContent:"center"
 
 
-}
+},
+eventView:{
+    backgroundColor:"#F5F7FA",
+    width:350,
+    margin:20,
+    alignItems:"center"
+    
+},
+
 
 
 

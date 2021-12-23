@@ -37,7 +37,7 @@ const SettingsScreen = (props) => {
 <TouchableOpacity style={{margin:15}} onPress={()=>props.navigation.navigate("Notification")}>
     <View style={{flexDirection:"row"}}>
       <View style={{flex:1}}>
-      <Icon name="notifications-circle-outline" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <Icon name="notifications-circle-outline" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
       <View style={{flex:4}}>
@@ -47,7 +47,7 @@ const SettingsScreen = (props) => {
 
       </View>
       <View style={{flex:1}}>
-      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
 
@@ -58,7 +58,7 @@ const SettingsScreen = (props) => {
   <TouchableOpacity style={{margin:15}} onPress={()=>props.navigation.navigate("Security")} >
     <View style={{flexDirection:"row"}}>
       <View style={{flex:1}}>
-      <MaterialCommunityIcons name="security" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <MaterialCommunityIcons name="security" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
       <View style={{flex:4}}>
@@ -68,7 +68,7 @@ const SettingsScreen = (props) => {
 
       </View>
       <View style={{flex:1}}>
-      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
 
@@ -80,7 +80,7 @@ const SettingsScreen = (props) => {
 <TouchableOpacity style={{margin:15}} onPress={()=>props.navigation.navigate("Account")}>
     <View style={{flexDirection:"row"}}>
       <View style={{flex:1}}>
-      <MaterialCommunityIcons name="account-circle-outline" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <MaterialCommunityIcons name="account-circle-outline" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
       <View style={{flex:4}}>
@@ -90,7 +90,7 @@ const SettingsScreen = (props) => {
 
       </View>
       <View style={{flex:1}}>
-      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
 
@@ -100,7 +100,7 @@ const SettingsScreen = (props) => {
   <TouchableOpacity style={{margin:15}}>
     <View style={{flexDirection:"row"}}>
       <View style={{flex:1}}>
-      <Icon name="information-circle-outline" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <Icon name="information-circle-outline" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
       <View style={{flex:4}}>
@@ -110,7 +110,7 @@ const SettingsScreen = (props) => {
 
       </View>
       <View style={{flex:1}}>
-      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
 
@@ -121,7 +121,7 @@ const SettingsScreen = (props) => {
   <TouchableOpacity style={{margin:15}}>
     <View style={{flexDirection:"row"}}>
       <View style={{flex:1}}>
-      <Icon name="help-circle-outline" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <Icon name="help-circle-outline" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
       <View style={{flex:4}}>
@@ -131,7 +131,7 @@ const SettingsScreen = (props) => {
 
       </View>
       <View style={{flex:1}}>
-      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={35} style={styles.notification}/>
+      <MaterialCommunityIcons name="chevron-right" color={"#4A5A77"} size={30} style={styles.notification}/>
 
       </View>
 
@@ -143,16 +143,14 @@ const SettingsScreen = (props) => {
  
         <TouchableOpacity style={{margin:15}} onPress={logout}>
     <View style={{flexDirection:"row"}}>
-      <View style={{flex:1}}>
-      <Icon name="log-out-outline" color={"#D61554"} size={35} style={styles.notification}/>
 
-      </View>
-      <View style={{flex:4}}>
+      <Icon name="log-out-outline" color={"#D61554"} size={30} style={styles.notification}/>
+
+
         <Text style={styles.LogoutText}>
           Logout
         </Text>
 
-      </View>
 
 
     </View>
@@ -180,8 +178,8 @@ const styles = StyleSheet.create({
   logo: {
       marginTop:20,
     marginLeft: 15,
-    width: 100,
-    height: 100
+    width: 120,
+    height: 120
   },
   profileView:{
     marginTop:25,
@@ -217,16 +215,17 @@ borderRadius:20
 
 },
 settingsText :{
-  fontSize:20,
+  fontSize:16,
   fontWeight:"500",
   color:"#4A5A77",
   marginTop:5
 },
 LogoutText :{
-  fontSize:20,
+  fontSize:18,
   fontWeight:"500",
   color:"#D61554",
-  marginTop:5
+  marginTop:5,
+  marginLeft:10
 },
 logText:{
   fontSize:20,

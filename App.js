@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './Screens/LoginScreen';
+import EventScreen from './Screens/EventScreen';
 import HomeScreen from './Screens/HomeScreen';
 import AppContextProvider from './context/AppContext';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -19,6 +20,7 @@ import SignupScreen from './Screens/SignupScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const SettingStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 
 const SettingsPages = (props) => {
   return(  <SettingStack.Navigator
@@ -36,6 +38,21 @@ const SettingsPages = (props) => {
 
 
 }
+const HomePages = (props) => {
+  return(  <HomeStack.Navigator
+    initialRouteName='Home'
+    headerMode='screen'
+ 
+  >
+          <HomeStack.Screen name="Home" component={HomeScreen}
+          />
+          <HomeStack.Screen name="Event" component={EventScreen}/>
+
+
+</HomeStack.Navigator>  )
+
+
+}
 const BottomNav = (props) => {
   return (
     <Tab.Navigator
@@ -47,8 +64,10 @@ const BottomNav = (props) => {
       headerMode='screen'
 
     >
-      <Tab.Screen name="Home" component={HomeScreen}           
-        options={{       
+      <Tab.Screen name="Home" component={HomePages}           
+        options={{      
+          headerShown: false,
+ 
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="home" color={color} size={size} />
 
