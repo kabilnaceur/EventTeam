@@ -1,8 +1,9 @@
-import React from 'react';
+import React,{useContext,useState} from 'react';
 import Event from "../assets/images/event.jpeg"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { AppContext } from "../context/AppContext";
+import { axios } from '../helper/axios';
 
 import {
 
@@ -16,6 +17,23 @@ import {
 
 
   const EventCard = (props) => {
+    const [comment , setComment] = useState("")
+    const {token} = useContext(AppContext)
+
+    const addComment= () => {
+
+        axios.post("/events/comments", {eventId:props.event._id,comment:comment}, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then((resp) => {
+              console.log(resp)
+              setComment('')
+
+
+          })
+          .catch((err) => { console.log('Error : ', err) })
+    
+      }
 
 
     return (
@@ -67,8 +85,13 @@ import {
               }
 
                 </TouchableOpacity>
-            <TextInput style={styles.commentInput}/>
-            <TouchableOpacity style={styles.commentButton}>
+            <TextInput style={styles.commentInput}
+            onChangeText={(e) => setComment(e)}
+
+            />
+            <TouchableOpacity style={styles.commentButton}
+            onPress={addComment}
+            >
                 <Text style={{color:"white",fontWeight:"500"}}>
                     Comment
                 </Text>

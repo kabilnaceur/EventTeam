@@ -2,6 +2,7 @@ import React,{useState,useContext,useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppContext } from "../context/AppContext";
 import { axios } from '../helper/axios';
+import logo from "../assets/images/logo.png"
 
 
 import {
@@ -22,6 +23,14 @@ import EventCard from '../components/EventCart';
 
 const HomeScreen = (props) => {
     const {token,user,setUser,events,setEvents} = useContext(AppContext)
+    const [loading, setLoading] = React.useState(true)
+
+    React.useEffect(() => {
+      if (!user)
+          {props.navigation.replace('Login')}
+          else{setLoading(false)}
+     
+  }, [user])
 useEffect(() => {
     axios.get('/events', {
       headers: { Authorization: `Bearer ${token}` },
@@ -74,7 +83,7 @@ useEffect(() => {
           console.log(err)
         })
       }
-
+if(!loading){
 
   return (
 
@@ -109,7 +118,12 @@ useEffect(() => {
     </SafeAreaView>
 
 
-  );
+  )}else{
+    return(
+    <View style={styles.backgroud}>
+    <Image source={logo} style={styles.logoScreen} />
+      </View>)
+  };
 }
 
 
@@ -156,7 +170,11 @@ eventView:{
     alignItems:"center",
     paddingBottom:20
     
-},
+},logoScreen : {
+  marginTop:20,
+  width:500,
+  height:200
+}
 
 
 

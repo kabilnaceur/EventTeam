@@ -5,9 +5,11 @@ import logo from "../assets/images/logo.png"
 
 import {
 
-  AsyncStorage,View,Text,Image,StyleSheet
+View,Text,Image,StyleSheet
 
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export const AppContext = createContext();
 
 
@@ -54,10 +56,8 @@ const AppContextProvider =  (props) => {
 
     await AsyncStorage.removeItem('token');
     setUser(null)
-      setLoading(false)
+    setLoading(false)
   
-
-
   };
 
   return (

@@ -12,7 +12,6 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  AsyncStorage,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
@@ -20,6 +19,7 @@ import {
   SafeAreaView
 
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -27,7 +27,9 @@ const Login = (props) => {
     React.useEffect(() => {
         if (user)
             {props.navigation.replace('Home')}
-            else {setLoading(false)}
+            else {setLoading(false)
+
+            }
        
     }, [])
 

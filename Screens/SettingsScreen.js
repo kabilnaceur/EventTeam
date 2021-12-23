@@ -18,16 +18,18 @@ ScrollView
   } from 'react-native';
 
 const SettingsScreen = (props) => {
-
     React.useEffect(() => {
         if (!user)
             {props.navigation.replace('Login')}
        
-    }, [])
+    }, [user])
   const logout = () =>{
-    logoutUser() 
+    logoutUser()
+    props.navigation.replace('Login')
   }
   const {user,logoutUser,setLoading,token} = useContext(AppContext)
+  console.log(user)
+
   return (
     <SafeAreaView style={styles.backgroud}
     >      
@@ -140,7 +142,7 @@ const SettingsScreen = (props) => {
 
   <Image style={styles.logo} source={logo} />
  
-        <TouchableOpacity style={{margin:15}} onPress={ logoutUser}>
+        <TouchableOpacity style={{margin:15}} onPress={logout}>
     <View style={{flexDirection:"row"}}>
 
       <Icon name="log-out-outline" color={"#D61554"} size={30} style={styles.notification}/>

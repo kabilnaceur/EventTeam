@@ -84,7 +84,7 @@ const BottomNav = (props) => {
                 <FontAwesome name="user" color={color} size={size} />
 
             ),}} />
-                  <Tab.Screen name="Settings" component={SettingsPages}           
+                  <Tab.Screen name="Setting" component={SettingsPages}           
         options={{       
           headerShown: false,
               tabBarIcon: ({ color, size }) => (

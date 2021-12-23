@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
   },
   Text:{
     fontSize: 12,
-    fontFamily:"Cochin",
     marginTop:42,
     color: "#4A5A77",
     textAlign:"center"

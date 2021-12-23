@@ -1,9 +1,10 @@
-import React,{useState,useContext,useEffect} from 'react';
+import React,{useState,useContext,useEffect,useRef} from 'react';
 import Event from "../assets/images/event.jpeg"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppContext } from "../context/AppContext";
 import { axios } from '../helper/axios';
+import io from "socket.io-client"
 import {
 
   StyleSheet,
@@ -13,13 +14,61 @@ import {
   TextInput,
   TouchableOpacity,
 
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 
 } from 'react-native';
+import CommentCard from '../components/CommentCard';
 
 
 
 const EventScreen = (props) => {
+    const socket = useRef();
+
+
+    useEffect(() => {
+        socket.current = io("http://192.168.1.6:4000");
+        socket.current.on("get", (data) => {
+          setNewComment({
+            user: data.senderId,
+            comment: data.text,
+          });
+        });
+      }, []);
+ useEffect(() => {
+        socket.current.emit("addUser", user._id);
+        socket.current.on("getUsers", (users) => {
+console.log(users)
+        });
+      }, [user]);
+
+    const [comment , setComment] = useState("")
+    useEffect(() => {
+        newComment &&
+          
+          setComments((prev) => [...prev, newComment]);
+      }, [newComment]);
+
+    const [newComment , setNewComment] = useState({})
+    console.log("newcomment",newComment)
+
+    const addComment= () => {
+        socket.current.emit("send", {
+            senderId: user._id,
+            text:comment,
+          });
+
+        axios.post("/events/comments", {eventId:event._id,comment:comment}, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then((resp) => {
+              setComment('')
+
+
+          })
+          .catch((err) => { console.log('Error : ', err) })
+    
+      }
     const {token,user,setUser} = useContext(AppContext)
     const isLiked = (eventId) => {
         if (user) {
@@ -70,12 +119,16 @@ const EventScreen = (props) => {
           .then(response => {
             if (response && response.data) {
               setEvent(response.data)
+              setComments(response.data.comments)
+
             }
           })
           .catch((err) => console.log("Error: ", err))
       }, [])
     const [event, setEvent] = useState([])
-console.log(event)
+    const [comments, setComments] = useState([])
+
+
 
   return (
 
@@ -85,6 +138,7 @@ console.log(event)
 <View style={styles.evView}>
     <View style={{flex:1}}>
             <Image source={Event} style={styles.eventImage} />
+            <ScrollView>
             <Text style={styles.textStyle}>
                 Event posted by : {event.user?.name}
 
@@ -114,8 +168,15 @@ console.log(event)
             <Text style={styles.textStyle}>
                 {event.description}
            </Text>
+           {
+               comments.map(comment=>(
+                <CommentCard comment={comment} key={comment._id}/>
+
+               ))
+           }
+           </ScrollView>
             </View>
-            <View style={{flexDirection:"row",marginBottom:10}}>
+            <View style={{flexDirection:"row",marginBottom:10,marginTop:10}}>
             <TouchableOpacity style={{margin:8}}
                             onPress={()=>{
                                 isLiked(event._id)
@@ -133,8 +194,14 @@ console.log(event)
               }
 
                 </TouchableOpacity>
-            <TextInput style={styles.commentInput}/>
-            <TouchableOpacity style={styles.commentButton}>
+            <TextInput style={styles.commentInput}
+            value={comment}
+            onChangeText={(e) => setComment(e)}
+
+            />
+            <TouchableOpacity style={styles.commentButton} 
+            onPress={addComment}
+            >
                 <Text style={{color:"white",fontWeight:"500"}}>
                     Comment
                 </Text>
