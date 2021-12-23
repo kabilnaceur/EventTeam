@@ -100,8 +100,8 @@ const BottomNav = (props) => {
 
 export default function App() {
   return (
+    <AppContextProvider>
     <NavigationContainer>
-        <AppContextProvider>
         <Stack.Navigator
           initialRouteName='Load'
           headerMode='screen'
@@ -112,8 +112,9 @@ export default function App() {
           <Stack.Screen name="Home" component={BottomNav} />
 
         </Stack.Navigator>
-        </AppContextProvider>
-    </NavigationContainer>  );
+    </NavigationContainer> 
+    </AppContextProvider>
+ );
 }
 
 const styles = StyleSheet.create({

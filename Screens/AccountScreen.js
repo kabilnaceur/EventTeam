@@ -155,8 +155,8 @@ const styles = StyleSheet.create({
     marginTop:20,
     marginLeft:20,
     color:"#4A5A77",
-    fontSize:20,
-    fontWeight:"bold"
+    fontSize:16,
+    fontWeight:"500"
 
 
 
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   buttonText:{
     color:"white",
-    fontSize: 18,
+    fontSize: 16,
   
   },
    userPhoto:{

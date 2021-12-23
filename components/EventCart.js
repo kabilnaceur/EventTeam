@@ -16,6 +16,7 @@ import {
 
 
   const EventCard = (props) => {
+      console.log(props.event.user)
 
 
     return (
@@ -27,23 +28,23 @@ import {
 <View >
             <Image source={Event} style={styles.eventImage} />
             <Text style={styles.textStyle}>
-                Event posted by : Kabil naceur
+                Event posted by : {props.event.user.name}
 
             </Text>
             <Text style={styles.textStyle}>
-                Type : Wedding
+                Type : {props.event.type}
             </Text>
             <View style={{flexDirection:"row"}}>
             <View style={{flexDirection:"row",flex:2}}>
 
             <Icon name="location-sharp" color={"#2697bb"} size={30}/>
             <Text style={styles.textStyle}>
-                Sousse</Text>
+                {props.event.location}</Text>
                 </View>
                 <View style={{flexDirection:"row",flex:1}}>
                 <FontAwesome name="users" color={"#2697bb"} size={30} />
             <Text style={styles.textStyle}>
-                0</Text>
+                {props.event.numberParticipants}</Text>
                     </View>
 
 
@@ -91,6 +92,7 @@ import {
         width:300,
         height:300,
         borderRadius:20,
+        marginBottom:15
     },
     eventImage:{
         width:300,

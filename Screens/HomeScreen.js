@@ -1,6 +1,7 @@
 import React,{useState,useContext,useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppContext } from "../context/AppContext";
+import { axios } from '../helper/axios';
 
 
 import {
@@ -20,8 +21,22 @@ import EventCard from '../components/EventCart';
 
 
 const HomeScreen = (props) => {
-    const {user} = useContext(AppContext)
-console.log("user",user)
+    const {token} = useContext(AppContext)
+useEffect(() => {
+    axios.get('/events', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(response => {
+        if (response && response.data) {
+          setEvents(response.data)
+        }
+      })
+      .catch((err) => console.log("Error: ", err))
+  }, [])
+  const [events, setEvents] = useState([])
+  console.log("user",events)
+
+
 
   return (
 
@@ -42,7 +57,14 @@ console.log("user",user)
 
         </View>
         <ScrollView contentContainerStyle={styles.eventView}>
-<EventCard navig={props.navigation}/>
+            {
+                events.map(event=>(
+                    <EventCard navig={props.navigation} key={event._id} event={event}/>
+
+
+                ))
+            }
+
         </ScrollView>
     
   
@@ -92,9 +114,9 @@ searchButton:{
 },
 eventView:{
     backgroundColor:"#F5F7FA",
-    width:350,
     margin:20,
-    alignItems:"center"
+    alignItems:"center",
+    paddingBottom:20
     
 },
 

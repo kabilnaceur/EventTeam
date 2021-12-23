@@ -1,5 +1,7 @@
 import React,{useState,useContext,useEffect} from 'react';
 import NoImage from "../assets/images/noimage.jpeg"
+import { AppContext } from "../context/AppContext";
+import { axios } from '../helper/axios';
 
 import {
 
@@ -9,18 +11,33 @@ View,
   SafeAreaView,
   TextInput,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 
 } from 'react-native';
 
 
 
 const AddEventScreen = (props) => {
+    const {token} = useContext(AppContext)
+
     const [name, setName] = useState("");
     const [date, setDate] = useState(null);
     const [type, setType] = useState("");
     const [description, setDescription] = useState("");
-    const [numberPar, setNumberPar] = useState("");
+    const [location, setLocation] = useState("");
+    const addEvent = () => {
+    
+        axios.post("/users/events", {name:name,date:date,type:type,description:description,location:location}, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then((resp) => {
+              console.log(resp.date)
+
+          })
+          .catch((err) => { console.log('Error : ', err) })
+    
+      }
 
 
 
@@ -30,6 +47,7 @@ const AddEventScreen = (props) => {
 
     <SafeAreaView style={styles.backgroud}
     >
+        <ScrollView contentContainerStyle={{width:"100%",justifyContent:"center",paddingTop:20,paddingBottom:20}}>
 
               <View style={styles.loginView}>
               <Image source={NoImage} style={styles.image} />
@@ -51,11 +69,11 @@ const AddEventScreen = (props) => {
 
         />
                 <Text style={styles.usernameText}>
-                Number of participants
+                Location
         </Text>
         <TextInput
         style={styles.input}
-        onChangeText={(e) => setNumberPar(e)}
+        onChangeText={(e) => setLocation(e)}
 
         />
                 <Text style={styles.usernameText}>
@@ -76,6 +94,7 @@ const AddEventScreen = (props) => {
 
         />
         <TouchableOpacity style={styles.buttonLogin}              
+onPress={addEvent}
 
         >
           <Text style={styles.buttonText}>
@@ -85,7 +104,7 @@ const AddEventScreen = (props) => {
 
       </View>
 
-    
+      </ScrollView>
   
     </SafeAreaView>
 
@@ -123,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor:"white",
     width:280,
     height:550,
-    borderRadius:20
+    borderRadius:20,
   },
   loginText:{
     fontSize: 11,

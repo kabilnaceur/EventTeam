@@ -28,8 +28,10 @@ const AppContextProvider =  (props) => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(async(response) => {
+          console.log(token)
           setUser(response.data.user);
           setLoading(false)
+
         });
     }else 
     setLoading(false)
