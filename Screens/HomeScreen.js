@@ -3,6 +3,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { AppContext } from "../context/AppContext";
 import { axios } from '../helper/axios';
 import logo from "../assets/images/logo.png"
+import Feather from 'react-native-vector-icons/Feather';
+
 
 
 import {
@@ -25,6 +27,8 @@ const HomeScreen = (props) => {
     const {token,user,setUser,events,setEvents} = useContext(AppContext)
     const [loading, setLoading] = React.useState(true)
     const [searchTerm, setSearchTerm] = useState("")
+    const [cancel, setCancel] = React.useState(false)
+    const [refresh, setRefresh] = React.useState(false)
     const [eventsSearching, setEventsSearching] = useState([])
 
       const searching = ()=> {
@@ -37,7 +41,7 @@ const HomeScreen = (props) => {
         console.log("hhhh",res.data.events)
 
         setEvents(res.data.events)
-        setSearchTerm("")
+        setCancel(true)
 
       }).catch(err => {
         console.log(err)
@@ -60,7 +64,7 @@ useEffect(() => {
         }
       })
       .catch((err) => console.log("Error: ", err))
-  }, [])
+  }, [refresh])
   const isLiked = (eventId) => {
     if (user) {
       return user?.likes?.map(event => event._id).includes(eventId)
@@ -117,10 +121,20 @@ if(!loading){
         placeholder="Search .."
        
         />
-        <TouchableOpacity style={styles.searchButton}  onPress={searching}>
-        <Icon name="search-outline" color={"white"} size={30}/>
+        {
+          cancel?(
+            <TouchableOpacity style={styles.searchButton}  onPress={()=>{setCancel(false);setSearchTerm("");setRefresh(true)}}>
+            <Feather name="x" color={"white"} size={30}/>
+    
+            </TouchableOpacity>
+          ):(
+            <TouchableOpacity style={styles.searchButton}  onPress={searching}>
+            <Icon name="search-outline" color={"white"} size={30}/>
+    
+            </TouchableOpacity>
+          )
+        }
 
-        </TouchableOpacity>
 
 
 
