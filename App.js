@@ -21,6 +21,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const SettingStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 const SettingsPages = (props) => {
   return(  <SettingStack.Navigator
@@ -53,6 +54,21 @@ const HomePages = (props) => {
 
 
 }
+const ProfilePages = (props) => {
+  return(  <ProfileStack.Navigator
+    initialRouteName='Profile'
+    headerMode='screen'
+ 
+  >
+          <ProfileStack.Screen name="Profile" component={ProfileScreen}
+          />
+          <ProfileStack.Screen name="Event" component={EventScreen}/>
+
+
+</ProfileStack.Navigator>  )
+
+
+}
 const BottomNav = (props) => {
   return (
     <Tab.Navigator
@@ -78,8 +94,9 @@ const BottomNav = (props) => {
                 <MaterialIcons name="event-note" color={color} size={size} />
 
             ),}} />
-                  <Tab.Screen name="Profile" component={ProfileScreen}           
-        options={{       
+                  <Tab.Screen name="Profile Page" component={ProfilePages}           
+        options={{    headerShown: false,
+     
               tabBarIcon: ({ color, size }) => (
                 <FontAwesome name="user" color={color} size={size} />
 

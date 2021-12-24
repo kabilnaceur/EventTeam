@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { AppContext } from "../context/AppContext";
 import { axios } from '../helper/axios';
 import io from "socket.io-client"
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import {
 
   StyleSheet,
@@ -24,9 +26,8 @@ import CommentCard from '../components/CommentCard';
 
 const EventScreen = (props) => {
     const socket = useRef();
-
-
     useEffect(() => {
+
         socket.current = io("http://192.168.1.6:4000");
         socket.current.on("get", (data) => {
           setNewComment({
@@ -36,13 +37,15 @@ const EventScreen = (props) => {
         });
       }, []);
  useEffect(() => {
+
         socket.current.emit("addUser", user._id);
         socket.current.on("getUsers", (users) => {
-console.log(users)
+
         });
       }, [user]);
 
     const [comment , setComment] = useState("")
+    const [userEvent , setUserEvent] = useState(false)
     useEffect(() => {
         newComment &&
           
@@ -50,7 +53,6 @@ console.log(users)
       }, [newComment]);
 
     const [newComment , setNewComment] = useState({})
-    console.log("newcomment",newComment)
 
     const addComment= () => {
         socket.current.emit("send", {
@@ -118,6 +120,10 @@ console.log(users)
           })
           .then(response => {
             if (response && response.data) {
+                user?.events.map(eventId=>{
+                    if(eventId._id===response.data._id)
+                    {setUserEvent(true)}
+                })
               setEvent(response.data)
               setComments(response.data.comments)
 
@@ -138,23 +144,32 @@ console.log(users)
 <View style={styles.evView}>
     <View style={{flex:1}}>
             <Image source={Event} style={styles.eventImage} />
-            <ScrollView>
-            <Text style={styles.textStyle}>
+            <ScrollView >
+            <Text style={{...styles.textStyle,fontSize:20,fontWeight:"bold",color:"#2697bb"}}>
+                 {event.name}
+            </Text>
+            <Text style={{...styles.textStyle,fontSize:15}}>
                 Event posted by : {event.user?.name}
 
             </Text>
-            <Text style={styles.textStyle}>
+            <Text style={{...styles.textStyle,fontSize:15}}>
                 Type : {event.type}
             </Text>
             <View style={{flexDirection:"row"}}>
-            <View style={{flexDirection:"row",flex:2}}>
+            <View style={{flexDirection:"row",flex:4}}>
 
-            <Icon name="location-sharp" color={"#2697bb"} size={30}/>
+            <Icon name="location-sharp" color={"#2697bb"} size={20}/>
             <Text style={styles.textStyle}>
                 {event.location}</Text>
                 </View>
+                <View style={{flexDirection:"row",flex:3}}>
+                <MaterialIcons name="event-note" color={"#2697bb"} size={20} />
+
+            <Text style={styles.textStyle}>
+                {event.date}</Text>
+                    </View>
                 <View style={{flexDirection:"row",flex:1}}>
-                <FontAwesome name="users" color={"#2697bb"} size={30} />
+                <FontAwesome name="users" color={"#2697bb"} size={20} />
             <Text style={styles.textStyle}>
                 {event.numberParticipants}</Text>
                     </View>
@@ -162,12 +177,37 @@ console.log(users)
 
 
             </View>
-            <Text style={styles.textStyle}>
+            <Text style={{...styles.textStyle,fontSize:15}}>
                 Description :
             </Text>
-            <Text style={styles.textStyle}>
+            <Text style={{...styles.textStyle,fontSize:15}}>
                 {event.description}
            </Text>
+           {
+               userEvent?(
+                   <View style={{alignItems:"center",justifyContent:"center"}}>
+
+                <TouchableOpacity style={{margin:8,backgroundColor:"#2697bb",width:170,height:40,borderRadius:40,justifyContent:"center",alignItems:"center"}}>
+                <Text style={{color:"white",fontSize:15}}>
+                        Edit Event
+                    </Text>
+
+                </TouchableOpacity>
+                </View>
+
+
+
+               ):(
+                <View style={{alignItems:"center",justifyContent:"center"}}>
+
+<TouchableOpacity style={{margin:8,backgroundColor:"#2697bb",width:170,height:40,borderRadius:40,justifyContent:"center",alignItems:"center"}}>
+<Text style={{color:"white",fontSize:15}}>
+                        Join Event
+                    </Text>
+                </TouchableOpacity>
+                </View>
+               )
+           }
            {
                comments.map(comment=>(
                 <CommentCard comment={comment} key={comment._id}/>
@@ -203,7 +243,7 @@ console.log(users)
             onPress={addComment}
             >
                 <Text style={{color:"white",fontWeight:"500"}}>
-                    Comment
+                <Icon name="send" color={"white"} size={20}/>
                 </Text>
             </TouchableOpacity>
 
@@ -245,21 +285,21 @@ eventImage:{
 
 },
 textStyle:{
-    fontSize:16,
     margin:5,
     color:"#4A5A77",
     fontWeight:"500"
 },
 commentInput:{
-    width:190,
+    width:220,
     height:40,
     backgroundColor:"#E8F0FE",
     borderRadius:50,
     padding:10
 },
 commentButton:{
-    width:70,
-    height:40,
+    marginTop:3,
+    width:40,
+    height:35,
     backgroundColor:"#2697bb",
     marginLeft:10,
     alignItems:"center",

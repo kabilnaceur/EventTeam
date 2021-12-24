@@ -56,7 +56,7 @@ import {
           <FontAwesome name="heart-o" color={"#D61554"} size={28} />
 
           </TouchableOpacity>
-          <TouchableOpacity style={{marginLeft:10}}>
+          <TouchableOpacity style={{marginLeft:13}}>
           <FontAwesome name="trash" color={"#2697bb"} size={28} />
 
           </TouchableOpacity>
@@ -87,7 +87,8 @@ import {
         width:"90%",
         height:80,
         borderRadius:20,
-        margin:18,
+        marginTop:15,
+        marginLeft:15,
         flexDirection:"row"
     },
     photo: {

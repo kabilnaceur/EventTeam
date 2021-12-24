@@ -24,7 +24,26 @@ import EventCard from '../components/EventCart';
 const HomeScreen = (props) => {
     const {token,user,setUser,events,setEvents} = useContext(AppContext)
     const [loading, setLoading] = React.useState(true)
+    const [searchTerm, setSearchTerm] = useState("")
+    const [eventsSearching, setEventsSearching] = useState([])
 
+      const searching = ()=> {
+        console.log("hhhh")
+        axios.get(`/events/search?searchTerm=${searchTerm}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      ).then(res => {
+        console.log("hhhh",res.data.events)
+
+        setEvents(res.data.events)
+        setSearchTerm("")
+
+      }).catch(err => {
+        console.log(err)
+      })
+
+      }
     React.useEffect(() => {
       if (!user)
           {props.navigation.replace('Login')}
@@ -83,6 +102,7 @@ useEffect(() => {
           console.log(err)
         })
       }
+      console.log(eventsSearching)
 if(!loading){
 
   return (
@@ -93,9 +113,11 @@ if(!loading){
         <View style={styles.searchView}>
         <TextInput style={styles.searchInput}  
         onChangeText={(e) => setSearchTerm(e)}
+        value={searchTerm}
         placeholder="Search .."
+       
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity style={styles.searchButton}  onPress={searching}>
         <Icon name="search-outline" color={"white"} size={30}/>
 
         </TouchableOpacity>
@@ -104,6 +126,7 @@ if(!loading){
 
         </View>
         <ScrollView contentContainerStyle={styles.eventView}>
+          
             {
                 events.map(event=>(
                     <EventCard navig={props.navigation} key={event._id} event={event} isLiked={isLiked} addLike={addLike} deleteLike={deleteLike}/>

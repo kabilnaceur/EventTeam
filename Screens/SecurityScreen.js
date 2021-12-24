@@ -36,7 +36,7 @@ const SecurityScreen = (props) => {
         }
       )
       .then((response) => {
-        props.navigation.navigate("Profile")
+        props.navigation.navigate("Settings")
         console.log(response);
       })
       .catch((error) => {

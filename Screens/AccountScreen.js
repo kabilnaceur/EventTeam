@@ -38,9 +38,9 @@ const AccountScreen = (props) => {
          }
       )
       .then((response) => {
-        props.navigation.navigate("Profile")
+        props.navigation.navigate("Settings")
         console.log(response);
-        setUser({...user,"name":response.data.name,"language":response.data.language,"login":response.data.login,"email":response.data.email})
+        setUser({...user,"name":response.data.name,"username":response.data.username,"email":response.data.email})
       })
       .catch((error) => {
         console.log(error);

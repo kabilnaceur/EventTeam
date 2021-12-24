@@ -16,6 +16,7 @@ TouchableOpacity,
 ScrollView
 
   } from 'react-native';
+import EventUser from '../components/EventUser';
 
 const ProfileScreen = (props) => {
 
@@ -44,6 +45,13 @@ const ProfileScreen = (props) => {
 
 </View>
 <ScrollView style={styles.detailsView}>
+  {
+    user?.events.map(event=>(
+      <EventUser navig={props.navigation} event={event}/>
+
+
+    ))
+  }
 
 
   </ScrollView>
@@ -74,6 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor:"white",
     width:"85%",
     height:150,
+    borderRadius:20
 },
 profilPicView:{
   backgroundColor:"#F5F7FA",
@@ -82,8 +91,8 @@ profilPicView:{
 },
 dropDownPhoto: {
   borderRadius: 100,
-  width: 75,
-  height: 75
+  width: 85,
+  height: 85
 },
 nameText:{
   fontSize:22,
@@ -95,7 +104,7 @@ emailText:{
   color:"#4A5A77"
 },
 detailsView:{
-  backgroundColor:"white",
+  backgroundColor:"#F5F7FA" ,
   width:"85%",
 marginTop:20,
 marginBottom:20,

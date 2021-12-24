@@ -22,10 +22,9 @@ const SettingsScreen = (props) => {
         if (!user)
             {props.navigation.replace('Login')}
        
-    }, [user])
+    }, [])
   const logout = () =>{
     logoutUser()
-    props.navigation.replace('Login')
   }
   const {user,logoutUser,setLoading,token} = useContext(AppContext)
   console.log(user)

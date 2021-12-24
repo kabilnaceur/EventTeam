@@ -4,6 +4,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppContext } from "../context/AppContext";
 import { axios } from '../helper/axios';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {
 
@@ -37,29 +38,39 @@ import {
 
 
     return (
-       <TouchableOpacity style={styles.evView}  onPress={()=>props.navig.navigate("Event",{eventId:props.event._id,isLiked:props.isLiked,addLike:props.addLike,deleteLike:props.deleteLike})}
+       <TouchableOpacity style={styles.evView}  onPress={()=>props.navig.navigate("Event",{eventId:props.event._id})}
        >
 
 
            
 <View >
             <Image source={Event} style={styles.eventImage} />
-            <Text style={styles.textStyle}>
+            <Text style={{...styles.textStyle,fontSize:16,fontWeight:"bold",color:"#2697bb"}}>
+                 {props.event.name}
+            </Text>
+            <Text style={{...styles.textStyle,fontSize:15}}>
                 Event posted by : {props.event.user.name}
 
             </Text>
-            <Text style={styles.textStyle}>
+
+            <Text style={{...styles.textStyle,fontSize:15}}>
                 Type : {props.event.type}
             </Text>
             <View style={{flexDirection:"row"}}>
-            <View style={{flexDirection:"row",flex:2}}>
+            <View style={{flexDirection:"row",flex:4}}>
 
-            <Icon name="location-sharp" color={"#2697bb"} size={30}/>
+            <Icon name="location-sharp" color={"#2697bb"} size={20}/>
             <Text style={styles.textStyle}>
                 {props.event.location}</Text>
                 </View>
-                <View style={{flexDirection:"row",flex:1}}>
-                <FontAwesome name="users" color={"#2697bb"} size={30} />
+                <View style={{flexDirection:"row",flex:3}}>
+                <MaterialIcons name="event-note" color={"#2697bb"} size={20} />
+
+            <Text style={styles.textStyle}>
+                {props.event.date}</Text>
+                    </View>
+                    <View style={{flexDirection:"row",flex:1}}>
+                <FontAwesome name="users" color={"#2697bb"} size={20} />
             <Text style={styles.textStyle}>
                 {props.event.numberParticipants}</Text>
                     </View>
@@ -93,7 +104,7 @@ import {
             onPress={addComment}
             >
                 <Text style={{color:"white",fontWeight:"500"}}>
-                    Comment
+                <Icon name="send" color={"white"} size={20}/>
                 </Text>
             </TouchableOpacity>
 
@@ -125,7 +136,7 @@ import {
         flex:1,
         backgroundColor:"white",
         width:300,
-        height:300,
+        height:320,
         borderRadius:20,
         marginBottom:15
     },
@@ -136,21 +147,21 @@ import {
     
     },
     textStyle:{
-        fontSize:16,
         margin:5,
         color:"#4A5A77",
         fontWeight:"500"
     },
     commentInput:{
-        width:160,
+        width:180,
         height:40,
         backgroundColor:"#E8F0FE",
         borderRadius:50,
         padding:10
     },
     commentButton:{
-        width:70,
-        height:40,
+        marginTop:3,
+        width:40,
+        height:35,
         backgroundColor:"#2697bb",
         marginLeft:10,
         alignItems:"center",

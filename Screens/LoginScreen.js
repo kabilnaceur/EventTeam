@@ -24,14 +24,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Login = (props) => {
-    React.useEffect(() => {
-        if (user)
-            {props.navigation.replace('Home')}
-            else {setLoading(false)
 
-            }
-       
-    }, [])
 
 const {loginUser,user,refreshUser} = useContext(AppContext)
 
@@ -55,6 +48,15 @@ const {loginUser,user,refreshUser} = useContext(AppContext)
     .catch((error)=>{console.log(error)})
    
   }
+  React.useEffect(() => {
+    if (user)
+        {props.navigation.replace('Home')}
+        else {setLoading(false)
+
+        }
+   
+}, [])
+console.log(user,"lool")
   if(!loading){
   return (
       <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
