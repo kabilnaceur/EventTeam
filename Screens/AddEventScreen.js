@@ -54,7 +54,7 @@ const AddEventScreen = (props) => {
 
     <SafeAreaView style={styles.backgroud}
     >
-        <ScrollView contentContainerStyle={{width:"100%",justifyContent:"center",paddingTop:20,paddingBottom:20}}>
+        <ScrollView contentContainerStyle={{width:"100%",justifyContent:"center",paddingTop:20,paddingBottom:20,alignItems:"center"}}>
 
               <View style={styles.loginView}>
               <Image source={NoImage} style={styles.image} />
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
   
   },
   loginView:{
-    justifyContent:"flex-start",
     alignItems:"center",
     backgroundColor:"white",
     width:280,

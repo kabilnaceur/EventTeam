@@ -17,25 +17,7 @@ import {
   } from 'react-native';
 
 
-  const CommentCard = (props) => {
-    const [comment , setComment] = useState("")
-    const {token} = useContext(AppContext)
-
-    const addComment= () => {
-
-        axios.post("/events/comments", {eventId:props.event._id,comment:comment}, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-          .then((resp) => {
-              console.log(resp)
-              setComment('')
-
-
-          })
-          .catch((err) => { console.log('Error : ', err) })
-    
-      }
-
+  const NotificationCard = (props) => {
 
     return (
        <View style={styles.evView}  
@@ -45,24 +27,12 @@ import {
       </View>
       <View style={{flex:1}}>
           <Text style={{...styles.Text,fontSize:17}}>
-          {props.comment.user?.name}
+          kabil naceur
           </Text>
           <Text style={styles.Text}>
-            {props.comment.comment}
+        has liked your event Party
           </Text>
       </View>
-      <View>
-          <TouchableOpacity style={{margin:10}}>
-          <FontAwesome name="heart-o" color={"#D61554"} size={28} />
-
-          </TouchableOpacity>
-          <TouchableOpacity style={{marginLeft:13}}>
-          <FontAwesome name="trash" color={"#2697bb"} size={28} />
-
-          </TouchableOpacity>
-      </View>
-
-
 
 
        </View>
@@ -84,11 +54,10 @@ import {
     evView:{
         flex:1,
         backgroundColor:"#E8F0FE",
-        width:"90%",
+        width:"100%",
         height:80,
         borderRadius:20,
-        marginTop:15,
-        marginLeft:15,
+        marginTop:10,
         flexDirection:"row"
     },
     photo: {
@@ -106,4 +75,4 @@ import {
   
   });
   
-  export default CommentCard;
+  export default NotificationCard;

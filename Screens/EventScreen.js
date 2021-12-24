@@ -143,8 +143,9 @@ const EventScreen = (props) => {
     >
 <View style={styles.evView}>
     <View style={{flex:1}}>
-            <Image source={Event} style={styles.eventImage} />
             <ScrollView >
+            <Image source={Event} style={styles.eventImage} />
+
             <Text style={{...styles.textStyle,fontSize:20,fontWeight:"bold",color:"#2697bb"}}>
                  {event.name}
             </Text>

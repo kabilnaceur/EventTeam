@@ -17,6 +17,7 @@ import SecurityScreen from './Screens/SecurityScreen';
 import AddEventScreen from './Screens/AddEventScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SignupScreen from './Screens/SignupScreen';
+import NotificationScreen from './Screens/NotificationScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const SettingStack = createNativeStackNavigator();
@@ -99,6 +100,12 @@ const BottomNav = (props) => {
      
               tabBarIcon: ({ color, size }) => (
                 <FontAwesome name="user" color={color} size={size} />
+
+            ),}} />
+                              <Tab.Screen name="Notifications" component={NotificationScreen}           
+        options={{       
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="notifications" color={color} size={size} />
 
             ),}} />
                   <Tab.Screen name="Setting" component={SettingsPages}           

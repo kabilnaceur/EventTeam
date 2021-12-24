@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 import {axios} from "../helper/axios";
 import logo from "../assets/images/logo.png"
+import * as Notifications from 'expo-notifications';
 
 
 import {
@@ -9,6 +10,13 @@ View,Text,Image,StyleSheet
 
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+  }),
+});
 
 export const AppContext = createContext();
 
@@ -20,6 +28,9 @@ const AppContextProvider =  (props) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState( AsyncStorage.getItem('token'));
   const [user, setUser] = useState(null); 
+  const [notifications, setNotifications] = React.useState([])
+  const notificationListener = React.useRef();
+
   React.useEffect(async () => {
     await refreshUser()
 
@@ -37,6 +48,8 @@ const AppContextProvider =  (props) => {
           headers: { Authorization: `Bearer ${token}` },
         })
             .then(response => {
+              setNotifications(response.data.notifications.slice(0).reverse())
+
                 setUser(response.data.connectedUser)
                 setLoading(false)
 
@@ -59,6 +72,72 @@ const AppContextProvider =  (props) => {
     setLoading(false)
   
   };
+  const markNotificationsAsRead = () => {
+    axios.patch('/users/notifications')
+        .then(res => {
+            console.log('successfully updated')
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+const registerForPushNotificationsAsync = async () => {
+  let token;
+
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+  if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+  }
+  if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+  }
+  token = (await Notifications.getExpoPushTokenAsync()).data;
+  console.log('token', token);
+
+
+  if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+          name: 'default',
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: '#FF231F7C',
+      });
+  }
+
+  return token;
+}
+
+React.useEffect(() => {
+  if (user) {
+      registerForPushNotificationsAsync().then(token => {
+          axios.patch('/users/notification-token', {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+              .then(res => {
+                  console.log("kabil",token)
+              })
+              .catch(err => {
+                  console.log(err)
+              })
+
+      });
+
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+          const newNotification = notification.request.content.data
+          setNotifications((_notifications) => {
+
+              return [newNotification, ..._notifications]
+          });
+      });
+
+      return () => {
+          Notifications.removeNotificationSubscription(notificationListener.current);
+      };
+  }
+}, [user]);
 
   return (
     <AppContext.Provider
@@ -71,7 +150,9 @@ const AppContextProvider =  (props) => {
         setLoading,
         refreshUser,
         events,
-        setEvents
+        setEvents,
+        markNotificationsAsRead,
+        notifications
       }}
     >
       {!loading?(props.children):
